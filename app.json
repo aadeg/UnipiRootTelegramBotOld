@@ -1,0 +1,28 @@
+{
+  "name": "Unipi Root Telegram Bot",
+  "description": "Telegram Bot for listing unipi telegram groups",
+  "image": "heroku/python",
+  "repository": "",
+  "keywords": ["python", "teamspeak" ],
+  "addons": [],
+  "env": {
+    "BOT_TOKEN": {
+      "description": "Bot token provided by @BotFather",
+      "required": true
+    },
+    "STAGE": {
+      "description": "Choose between 'dev' or 'production'",
+      "value": "production"
+    },
+    "WEBHOOK_URL_PATH": {
+      "description": "Used only on production stage",
+      "required": false
+    },
+    "APP_URL": {
+      "description": "Base URL of the app. Used only in production stage",
+      "required": false
+    }
+  },
+  "environments": {
+  }
+}

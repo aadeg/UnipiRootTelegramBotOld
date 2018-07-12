@@ -23,6 +23,11 @@ def load_msg_cache(key, path):
 
 # Handler callbacks
 def on_cmd_start(bot, update):
+    bot.send_chat_action(
+        chat_id=update.message.chat_id,
+        action=telegram.ChatAction.TYPING
+    )
+
     msg = msg_cache.get('start')
     if not msg:
         msg = load_msg_cache('start', 'msgs/start.html')
@@ -34,6 +39,11 @@ def on_cmd_start(bot, update):
 
 
 def on_cmd_list(bot, update):
+    bot.send_chat_action(
+        chat_id=update.message.chat_id,
+        action=telegram.ChatAction.TYPING
+    )
+    
     msg = msg_cache.get('list')
     if not msg:
         msg = load_msg_cache('list', 'msgs/list.html')

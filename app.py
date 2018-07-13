@@ -22,37 +22,24 @@ def load_msg_cache(key, path):
 
 
 # Handler callbacks
-def on_cmd_start(bot, update):
-    bot.send_chat_action(
-        chat_id=update.message.chat_id,
-        action=telegram.ChatAction.TYPING
-    )
+def file_reply_cmd_handler(cache_key, file_name, **kwargs):
+    def on_cmd(bot, update):
+        bot.send_chat_action(
+            chat_id=update.message.chat_id,
+            action=telegram.ChatAction.TYPING
+        )
 
-    msg = msg_cache.get('start')
-    if not msg:
-        msg = load_msg_cache('start', 'msgs/start.html')
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=msg,
-        parse_mode=telegram.ParseMode.HTML
-    )
+        msg = msg_cache.get(cache_key)
+        if not msg:
+            msg = load_msg_cache(cache_key, file_name)
 
-
-def on_cmd_list(bot, update):
-    bot.send_chat_action(
-        chat_id=update.message.chat_id,
-        action=telegram.ChatAction.TYPING
-    )
-    
-    msg = msg_cache.get('list')
-    if not msg:
-        msg = load_msg_cache('list', 'msgs/list.html')
-
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=msg,
-        parse_mode=telegram.ParseMode.HTML
-    )
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text=msg,
+            parse_mode=telegram.ParseMode.HTML,
+            **kwargs
+        )
+    return on_cmd
 
 
 def start_webook(updater):
@@ -97,10 +84,14 @@ def main():
     dispatcher = updater.dispatcher
 
     # Handlers
-    start_handler = CommandHandler('start', on_cmd_start)
-    list_handler = CommandHandler('list', on_cmd_list)
-    dispatcher.add_handler(start_handler)
-    dispatcher.add_handler(list_handler)
+    start_handler = file_reply_cmd_handler('start', 'msgs/start.html')
+    list_handler = file_reply_cmd_handler('list', 'msgs/list.html')
+    faq_handler = file_reply_cmd_handler('faq', 'msgs/faq.html',
+                                         disable_web_page_preview=True)
+
+    dispatcher.add_handler(CommandHandler('start', start_handler))
+    dispatcher.add_handler(CommandHandler('list', list_handler))
+    dispatcher.add_handler(CommandHandler('faq', faq_handler))
 
     start_updater(updater)
 

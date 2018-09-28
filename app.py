@@ -85,12 +85,16 @@ def main():
 
     # Handlers
     start_handler = file_reply_cmd_handler('start', 'msgs/start.html')
-    list_handler = file_reply_cmd_handler('list', 'msgs/list.html')
+    Mlist_handler = file_reply_cmd_handler('Mlist', 'msgs/Mlist.html')
+    Ylist_handler = file_reply_cmd_handler('Ylist', 'msgs/Ylist.html')
+    Ulist_handler = file_reply_cmd_handler('Ulist', 'msgs/Ulist.html')
     faq_handler = file_reply_cmd_handler('faq', 'msgs/faq.html',
                                          disable_web_page_preview=True)
 
     dispatcher.add_handler(CommandHandler('start', start_handler))
-    dispatcher.add_handler(CommandHandler('list', list_handler))
+    dispatcher.add_handler(CommandHandler('Mlist', Mlist_handler))
+    dispatcher.add_handler(CommandHandler('Ylist', Ulist_handler))
+    dispatcher.add_handler(CommandHandler('Ylist', Ylist_handler))
     dispatcher.add_handler(CommandHandler('faq', faq_handler))
 
     start_updater(updater)
